@@ -1,0 +1,32 @@
+{
+  "name": "bnctool",
+  "version": "1.0.1",
+  "description": "bnc developing tools",
+  "main": "index.js",
+  "bin": {
+    "bnc": "bin/bnc.js",
+    "bnc-init": "bin/bnc-init.js"
+  },
+  "dependencies": {
+    "archiver": "^2.0.0",
+    "chalk": "^2.0.1",
+    "chokidar": "^1.7.0",
+    "clean-css": "^4.1.7",
+    "commander": "^2.11.0",
+    "download-git-repo": "^1.0.1",
+    "less": "^2.7.2",
+    "open": "0.0.5",
+    "serve": "^6.0.6",
+    "uglify-js": "^3.0.26"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bnc",
+    "bnctool"
+  ],
+  "author": "kingsaber",
+  "license": "ISC"
+}
