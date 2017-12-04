@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var colors = require('colors');
 var lang = require('../lib/lang');
 var logger = require('../lib/logger');
 

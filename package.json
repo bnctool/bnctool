@@ -8,6 +8,7 @@
     "bnc-init": "bin/bnc-init.js"
   },
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "archiver": "^2.0.0",
     "chalk": "^2.0.1",
     "chokidar": "^1.7.0",

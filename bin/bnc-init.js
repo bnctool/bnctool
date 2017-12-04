@@ -18,7 +18,7 @@ var Init = {
     workDir: null,
     workList: [],
     type: '1',
-    typeObj: {'1': 'BaiduBnc/singlePageFrame','2': 'BaiduBnc/bnc-project'},
+    typeObj: {'1': 'BaiduBnc/singlePageFrame','2': 'BaiduBnc/bnc-project#download'},
     changeObj: {'2': 'process'}
 };
 
