@@ -98,13 +98,14 @@ Download.load = function() {
 				var zip = new AdmZip(buf);
 				var zipEntries = zip.getEntries();
 				zipEntries.forEach(function(zipEntry) {
-					console.log('zipEntry');
-					console.log(zipEntry);
-			        // if (zipEntry.entryName == "my_file.txt") {
-			        //      console.log(zipEntry.data.toString('utf8'));
-			        // }
+					if(!/preview/ig.test(zipEntry.entryName)) {
+						if(/images/ig.test(zipEntry.entryName)) {
+							zip.extractEntryTo(zipEntry.entryName, file_path + '/images' , false, true);
+						} else {
+							zip.extractEntryTo(zipEntry.entryName, file_path, false, true);
+						}
+					}
 				})
-				zip.extractAllTo(file_path, true);
 				logger.log(useLang.downloadPkgEnd);
 			}
 		})
