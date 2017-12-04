@@ -142,6 +142,8 @@ Init.chooseOperate = function () {
 Init.process = function () {
     var self = this;
     Init.workList = file.scanDirectory(this.workDir);
+    console.log('init.worklist');
+    console.log(Init.workList);
     Init.makeHTML();
     Init.workList.forEach(function (item) {
         if(/bncDemo/.test(item)) {

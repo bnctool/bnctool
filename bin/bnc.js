@@ -38,4 +38,6 @@ program
     .command('build', 'build project for debug')
     .command('server', 'launch a http server')
     .command('list', 'list available abilities')
+    .command('download <pkg>', 'download the compressed packet')
+    .command('injection', 'inject the ability into the project')
     .parse(process.argv);

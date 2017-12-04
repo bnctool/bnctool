@@ -34,7 +34,9 @@ var Pack = {
     //产出的临时目录下的图片
     releaseImgDir: '',
     //打包的项目名
-    name: ''
+    name: '',
+    //需要打包的preview文件
+    previewDir: ''
 };
 
 /**
@@ -59,6 +61,8 @@ Pack.findConfig = function () {
         logger.log(chalk.red('cannot read config.json!'));
         this.quit();
     }
+
+    this.previewDir = path.join(this.baseDir,'preview');
 };
 
 
@@ -67,6 +71,7 @@ Pack.findConfig = function () {
  */
 Pack.scanDir = function () {
     this.workList = file.scanDirectory(this.workDir);
+    this.previewList = file.scanDirectory(this.previewDir);
     // this.releaseDir = path.join(this.baseDir, this.name);
     // file.mkdir(this.releaseDir);
     // this.releaseImgDir = path.join(this.releaseDir, 'images');
@@ -80,6 +85,7 @@ Pack.compile = function () {
     var self = this;
     this.workList.forEach(function (item) {
         var basename = path.basename(item);
+        console.log(basename);
         var reg = new RegExp(self.whiteList.join('|'), 'ig');
         if(reg.test(item)) {
             // readme.md config.json 不作处理，只拷贝
@@ -100,16 +106,25 @@ Pack.compile = function () {
                 });
             }
 
-            if(/\.css/ig.test(basename)) {
-                cache = new CleanCSS({}).minify(cache).styles;
-            }
+            // if(/\.css/ig.test(basename)) {
+            //     cache = new CleanCSS({}).minify(cache).styles;
+            // }
 
-            if(/\.js/ig.test(basename)) {
-                cache = UglifyJS.minify(cache).code;
-            }
+            // if(/\.js/ig.test(basename)) {
+            //     cache = UglifyJS.minify(cache).code;
+            // }
 
             zip.append(cache, { name: basename });
             // file.write(path.join(self.releaseDir, basename), cache);
+        }
+    });
+    this.previewList.forEach(function (item) {
+        var basename = path.basename(item);
+        if(/images/ig.test(item)) {
+            zip.append(fs.createReadStream(item), { name: path.join('preview', 'images', basename) });
+        } else {
+            var previewCache = file.read(item);
+            zip.append(previewCache, { name: path.join('preview' , basename) });
         }
     });
 };
@@ -149,9 +164,11 @@ Pack.quit = function () {
 };
 
 Pack.init = function () {
+    console.log(program.args);
     if(program.args.length > 0) {
         this.baseDir = path.join(process.cwd(), program.args[0]);
     }
+    console.log(this.baseDir);
     this.findConfig();
     this.scanDir();
     this.compile();
