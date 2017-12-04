@@ -85,7 +85,6 @@ Pack.compile = function () {
     var self = this;
     this.workList.forEach(function (item) {
         var basename = path.basename(item);
-        console.log(basename);
         var reg = new RegExp(self.whiteList.join('|'), 'ig');
         if(reg.test(item)) {
             // readme.md config.json 不作处理，只拷贝
@@ -164,11 +163,9 @@ Pack.quit = function () {
 };
 
 Pack.init = function () {
-    console.log(program.args);
     if(program.args.length > 0) {
         this.baseDir = path.join(process.cwd(), program.args[0]);
     }
-    console.log(this.baseDir);
     this.findConfig();
     this.scanDir();
     this.compile();
