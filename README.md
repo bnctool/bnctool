@@ -31,6 +31,8 @@ $ bnc --help
           pack        pack project to upload
           list        list available abilities
           help [cmd]  display help for [cmd]
+          download    download the  ability
+          injection   inject the ability into the project
 
 ```
 
