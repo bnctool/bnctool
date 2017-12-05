@@ -24,7 +24,8 @@ $ bnc --help
 
         Commands:
 
-          init        generate a new project from template
+          init        generate a new ability from template
+          create      create a single page frame from template
           debug       build ability and launch a http server
           build       build project for debug
           server      launch a http server
@@ -39,11 +40,7 @@ $ bnc --help
 
 ## First: init
 ```console
-$ bnc init [project-Type] [project-name]
-or 
-$ bnc init
-
-project-Type  1:单也面应用 2:BNC能力模板
+$ bnc init [project-name]
 
 example:
 

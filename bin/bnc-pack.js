@@ -36,7 +36,8 @@ var Pack = {
     //打包的项目名
     name: '',
     //需要打包的preview文件
-    previewDir: ''
+    previewDir: '',
+    previewList: []
 };
 
 /**
@@ -61,8 +62,6 @@ Pack.findConfig = function () {
         logger.log(chalk.red('cannot read config.json!'));
         this.quit();
     }
-
-    this.previewDir = path.join(this.baseDir,'preview');
 };
 
 
@@ -71,7 +70,11 @@ Pack.findConfig = function () {
  */
 Pack.scanDir = function () {
     this.workList = file.scanDirectory(this.workDir);
-    this.previewList = file.scanDirectory(this.previewDir);
+
+    this.previewDir = path.join(this.baseDir,'preview');
+    if(file.isExist(this.previewDir)) {
+        this.previewList = file.scanDirectory(this.previewDir);
+    }
     // this.releaseDir = path.join(this.baseDir, this.name);
     // file.mkdir(this.releaseDir);
     // this.releaseImgDir = path.join(this.releaseDir, 'images');
@@ -117,6 +120,9 @@ Pack.compile = function () {
             // file.write(path.join(self.releaseDir, basename), cache);
         }
     });
+    if (!this.previewList.length) {
+        return;
+    }
     this.previewList.forEach(function (item) {
         var basename = path.basename(item);
         if(/images/ig.test(item)) {
