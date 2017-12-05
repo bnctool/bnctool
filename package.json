@@ -1,6 +1,6 @@
 {
   "name": "bnctool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "bnc developing tools",
   "main": "index.js",
   "bin": {
@@ -11,6 +11,7 @@
     "adm-zip": "^0.4.7",
     "archiver": "^2.0.0",
     "chalk": "^2.0.1",
+    "cheerio": "1.0.0-rc.2",
     "chokidar": "^1.7.0",
     "clean-css": "^4.1.7",
     "commander": "^2.11.0",
