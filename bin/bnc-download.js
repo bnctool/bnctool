@@ -50,8 +50,7 @@ process.on('exit', function () {
 Download.init = function () {
 	if (!program.args[0]) {
 		console.log();
-	    console.log('param Error:' + useLang.downloadPkgTip);
-	    return;
+		logger.fatal('请输入您要下载的能力  example: bnc download bncDemo');
 	}
 
 	this.judgeParam();
@@ -65,7 +64,6 @@ Download.init = function () {
 Download.load = function() {
 	let version = this.version.length ? '&version=' + this.version : '';
 	let file_url = apiHost + '/bnc/preview/zip?ability=' + this.name + version;
-	console.log('【file_url】:' + file_url);
 	let file_path = path.join('bnc-download', this.name);
 	let self = this;
 	var req = http.get(file_url, function(res) {
@@ -80,16 +78,15 @@ Download.load = function() {
 				let result = JSON.parse(part);
 				if(result.errno == '81000056') {
 					logger.log(useLang.versionInvalidError);
-					// 可以查看其它包列表
 					self.getVersionList();
 				} else if (result.errno == '81000057') {
 					logger.log(useLang.versionNotLoadError);
-					// 可以查看其它包列表
 					self.getVersionList();
+				} else {
+					logger.fatal('当前能力包不存在');
 				}
-			} else { //正常下载
+			} else {
 				logger.log(useLang.downloadPkgStart);
-				// 创建一个buffer存放解压的文件
 				var buf = new Buffer(dataLen);
 				for (var i=0, len = data.length, pos = 0; i < len; i++) {
 					data[i].copy(buf, pos);
@@ -111,7 +108,6 @@ Download.load = function() {
 		})
 	});
 	req.on('error', function(err){
-		console.log('请求有误');
 	  	console.log(err);
 	});
 }
@@ -145,7 +141,7 @@ Download.judgeName = function(name) {
         logger.log(useLang.nameErrorOne);
         logger.log(useLang.nameErrorTwo);
         logger.log(useLang.nameErrorThree);
-        return;
+        process.exit(1);
     }
     this.name = name;
 }
@@ -157,14 +153,13 @@ Download.judgeVersion = function(version) {
 	let reg = /^[0-9]\.[0-9]\.[0-9]+$/;
 	if (!reg.test(version)) {
 		logger.log(useLang.versionError);
-		return;
+		process.exit(1);
 	}
 	this.version = version;
 }
 
 Download.getVersionList = function () {
-	let getMisAbilityVerListUrl = apiHost + 'bnc/node/Ability/getMisAbilityVerList?ability=' + this.name +'&time=' + new Date().getTime();
-	console.log('【file_url】:' + getMisAbilityVerListUrl);
+	let getMisAbilityVerListUrl = apiHost + '/bnc/node/Ability/getMisAbilityVerList?ability=' + this.name +'&time=' + new Date().getTime();
 	let data = '';
 	let versionList = [];
 	let self = this;
@@ -177,7 +172,7 @@ Download.getVersionList = function () {
 				versionList.push(item.version);
 			});
 			logger.log(useLang.versionListTip);
-			logger.log(versionList.join(','));
+			logger.log(versionList.join(', '));
 		})
 	})
 
