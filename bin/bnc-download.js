@@ -65,7 +65,6 @@ Download.init = function () {
 Download.load = function() {
 	let version = this.version.length ? '&version=' + this.version : '';
 	let file_url = apiHost + '/bnc/preview/zip?ability=' + this.name + version;
-	console.log('【file_url】:' + file_url);
 	let file_path = path.join('bnc-download', this.name);
 	let self = this;
 	var req = http.get(file_url, function(res) {
