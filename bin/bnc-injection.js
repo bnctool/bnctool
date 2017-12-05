@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var Build = require('../lib/builder');
+var Inject = require('../lib/inject');
 
 program
     .option('-w, --watch', 'monitor the changes of project, auto build')
@@ -9,6 +9,4 @@ program
     .parse(process.argv);
 
 
-Build.init(program, {
-    mode: 'inject'
-});
+Inject.init(program);
