@@ -16,6 +16,7 @@
     "clean-css": "^4.1.7",
     "commander": "^2.11.0",
     "download-git-repo": "^1.0.1",
+    "glob": "^7.1.2",
     "less": "^2.7.2",
     "open": "0.0.5",
     "serve": "^6.0.6",

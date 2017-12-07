@@ -3,3 +3,4 @@
 *.log
 .git
 vue
+static/bnc-mod.js
