@@ -1,6 +1,6 @@
 {
   "name": "bnctool",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "bnc developing tools",
   "main": "index.js",
   "bin": {
