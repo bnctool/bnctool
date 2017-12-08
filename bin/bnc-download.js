@@ -8,6 +8,7 @@ var http = require('http');
 var path = require('path');
 var AdmZip = require('adm-zip');
 var url = require('url');
+var file = require('../lib/file');
 
 var useLang = lang.CHS;
 var apiHost = 'http://yf-rdqa04-dev150-qinhan.epc.baidu.com:8811';
@@ -64,7 +65,7 @@ Download.init = function () {
 Download.load = function() {
 	let version = this.version.length ? '&version=' + this.version : '';
 	let file_url = apiHost + '/bnc/preview/zip?ability=' + this.name + version;
-	let file_path = path.join('bnc-download', this.name);
+	let file_path = path.join('bnc_download', this.name);
 	let self = this;
 	var req = http.get(file_url, function(res) {
 		var data = [], dataLen = 0;
@@ -81,7 +82,7 @@ Download.load = function() {
 					self.getVersionList();
 				} else if (result.errno == '81000057') {
 					logger.log(useLang.versionNotLoadError);
-					self.getVersionList();
+					// self.getVersionList();
 				} else {
 					logger.fatal('当前能力包不存在');
 				}
@@ -102,7 +103,11 @@ Download.load = function() {
 							zip.extractEntryTo(zipEntry.entryName, file_path, false, true);
 						}
 					}
-				})
+				});
+				var conf = {
+    				"require":["**"]
+				}
+				file.writeFileSync('bnc.conf', JSON.stringify(conf));
 				logger.log(useLang.downloadPkgEnd);
 			}
 		})
