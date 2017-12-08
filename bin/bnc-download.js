@@ -104,10 +104,12 @@ Download.load = function() {
 						}
 					}
 				});
-				var conf = {
-    				"require":["**"]
-				}
-				file.writeFileSync('bnc.conf', JSON.stringify(conf));
+                // var conf = {
+    				// "require":["**"]
+                // };
+                // if(!file.isExist('bnc.conf')) {
+                //     file.writeFileSync('bnc.conf', JSON.stringify(conf));
+                // }
 				logger.log(useLang.downloadPkgEnd);
 			}
 		})
