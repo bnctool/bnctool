@@ -39,6 +39,6 @@ program
     .command('build', 'build project for debug')
     .command('server', 'launch a http server')
     .command('list', 'list available abilities')
-    .command('download <pkg>', 'download the ability')
-    .command('injection', 'inject the ability into the project')
+    .command('download <pkg>', 'download the ability').alias('down')
+    .command('injection', 'inject the ability into the project').alias('inj')
     .parse(process.argv);
