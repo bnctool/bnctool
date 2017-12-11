@@ -105,7 +105,7 @@ Download.load = function() {
 					}
 				});
                 // var conf = {
-    				// "require":["**"]
+                // "require":["**"]
                 // };
                 // if(!file.isExist('bnc.conf')) {
                 //     file.writeFileSync('bnc.conf', JSON.stringify(conf));
