@@ -112,8 +112,10 @@ Download.load = function() {
 				} else if (result.errno == '81000057') {
 					logger.log(useLang.versionNotLoadError);
 					// self.getVersionList();
+				} else if (result.errno == '81000058'){
+                    logger.fatal('当前能力包没有开放，不支持下载');
 				} else {
-					logger.fatal('当前能力包不存在');
+                    logger.fatal('当前能力包不存在');
 				}
 			} else {
 				logger.log(useLang.downloadPkgStart);
