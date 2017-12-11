@@ -9,6 +9,7 @@ var path = require('path');
 var AdmZip = require('adm-zip');
 var url = require('url');
 var file = require('../lib/file');
+var streamObj = require('../lib/StreamObj');
 
 var useLang = lang.CHS;
 var apiHost = 'http://yf-rdqa04-dev150-qinhan.epc.baidu.com:8811';
@@ -55,8 +56,36 @@ Download.init = function () {
 	}
 
 	this.judgeParam();
-    this.load();
+	let ablityPath = path.join('bnc_download', this.name);
+	if(file.isExist(ablityPath)) {
+	    logger.warn(this.name + '能力包已经存在，确定更新该能力包吗？(y/n):')
+        this.readSingle();
+    } else {
+        this.load();
+    }
 };
+
+/*
+* download readSingle
+*/
+Download.readSingle = function() {
+    let self = this;
+    streamObj.readSingle(function(str) {
+       str = str.replace("\n", "");
+        if(str == 'y') {
+            streamObj.stopStream();
+            self.load();
+        } else if (str == 'n') {
+            streamObj.stopStream();
+            logger.log('当前能力包将保持不变');
+            process.exit(1);
+        } else {
+            logger.log('请输入y/n:');
+            self.readSingle();
+        }
+    });
+}
+
 
 /**
  * download pkg
