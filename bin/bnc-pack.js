@@ -4,20 +4,18 @@ var chalk = require('chalk');
 var path = require('path');
 var util = require('util');
 var fs = require('fs');
-var UglifyJS = require("uglify-js");
+// var UglifyJS = require("uglify-js");
+var UglifyJS = require("uglify-es");
 var CleanCSS = require('clean-css');
 var less = require('less');
 var file = require('../lib/file');
 var logger = require('../lib/logger');
 var tools = require('../lib/tools');
-var archive = require('archiver');
+var JSZip = require('jszip');
 
 program.parse(process.argv);
 
-var zip = archive('zip');
-zip.on('error', function(err) {
-    throw err;
-});
+var zip = new JSZip();
 
 var Pack = {
     whiteList: ['readme.md', 'config.json'],
@@ -83,11 +81,11 @@ Pack.compile = function () {
         var reg = new RegExp(self.whiteList.join('|'), 'ig');
         if(reg.test(item)) {
             // readme.md config.json 不作处理，只拷贝
-            zip.append(fs.createReadStream(item), { name: basename });
+            zip.file(basename,fs.createReadStream(item));
             // file.copy(item, path.join(self.releaseDir, basename));
         } else if(/images/ig.test(item)){
             // images只拷贝
-            zip.append(fs.createReadStream(item), { name: path.join('images' , basename) });
+            zip.file(path.join('images' , basename),fs.createReadStream(item));
             // file.copy(item, path.join(self.releaseImgDir, basename));
         } else {
             // 需要压缩
@@ -108,7 +106,7 @@ Pack.compile = function () {
                 cache = UglifyJS.minify(cache).code;
             }
 
-            zip.append(cache, { name: basename });
+            zip.file(basename,cache)
             // file.write(path.join(self.releaseDir, basename), cache);
         }
     });
@@ -127,11 +125,16 @@ Pack.zipDir = function () {
     var zipName = this.name + '_' + ts + '.zip';
     var output = fs.createWriteStream(path.join(this.baseDir, zipName));
     output.on('close', function() {
-        logger.log(zipName + ' ...... ' + zip.pointer() + ' total bytes');
+        // logger.log(zipName + ' ...... ' + zip.pointer() + ' total bytes');
         // Pack.removeDir();
     });
-    zip.finalize();
-    zip.pipe(output);
+    zip
+        .generateNodeStream({type:'nodebuffer',streamFiles:true})
+        .pipe(fs.createWriteStream(zipName))
+        .on('finish', function () {
+            // JSZip generates a readable stream with a "end" event,
+            // but is piped here in a writable stream which emits a "finish" event.
+        });
 };
 
 /**
