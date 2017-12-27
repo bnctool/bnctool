@@ -99,7 +99,7 @@ Pack.compile = function () {
             }
 
             if(/\.css/ig.test(basename)) {
-                cache = new CleanCSS({}).minify(cache).styles;
+                // cache = new CleanCSS({}).minify(cache).styles;
             }
 
             if(/\.js/ig.test(basename)) {
