@@ -41,7 +41,7 @@ $ bnc init [project-Type] [project-name]
 or 
 $ bnc init
 
-project-Type  1:单也面应用 2:BNC能力模板
+project-Type  1:单页面应用 2:BNC能力模板
 
 example:
 
